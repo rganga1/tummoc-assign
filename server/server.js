@@ -1,11 +1,12 @@
 import express, { json, urlencoded } from "express";
 import mongoose from "mongoose";
 
+
 const app = express();
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-
+app.use("/users",userRouter)
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))

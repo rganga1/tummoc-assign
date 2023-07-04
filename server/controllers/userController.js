@@ -1,0 +1,3 @@
+let signUpController=()=>{};
+
+export {signUpController};
