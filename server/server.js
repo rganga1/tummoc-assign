@@ -4,8 +4,10 @@ import userRouter from "./routes/userRoutes.js"
 import dotenv from "dotenv"
 dotenv.config();
 import passport from "passport";
+import cookieParser from "cookie-parser"
 
 const app = express();
+app.use(cookieParser());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(passport.initialize());

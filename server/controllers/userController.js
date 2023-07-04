@@ -57,4 +57,6 @@ function generateToken(user) {
   return token;
 }
 
-export { signUpController, signInController,generateToken };
+
+
+export { signUpController, signInController};
