@@ -1,7 +1,12 @@
+import User from "../models/userModel.js"
+import bcrypt from "bcryptjs"
+import jwt from 'jsonwebtoken'
+import colors from "colors"
+
 const signUpController = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
+    const { email,name, password } = req.body;
+    console.log(`${email,password}`.yellow.inverse);
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -14,13 +19,14 @@ const signUpController = async (req, res) => {
     // Create a new user
     const newUser = new User({
       email,
+      name,
       password: hashedPassword,
     });
 
     // Save the user to the database
     await newUser.save();
     // Generate JWT token
-    const token = generateToken(user);
+    const token = generateToken(newUser);
     // Respond with the token
     res.status(200).json({ token });
   } catch (err) {
