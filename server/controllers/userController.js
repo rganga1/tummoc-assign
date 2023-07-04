@@ -45,6 +45,37 @@ const signInController = async (req, res) => {
   res.send("Logged in successfully!");
 };
 
+const googleAuthController = async (req, res) => {
+  try {
+    const { email, name, password } = req.body;
+    console.log(`${email},${password}`.yellow.inverse);
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.cookie("jwt", token, { httpOnly: true });
+      return res.send("Logged in successfully!");
+    }
+
+    // Create a new user
+    const newUser = new User({
+      email: profile.email,
+      name: profile.name,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+    // Generate JWT token
+    const token = generateToken(newUser);
+    // Set the token as an HTTP-only cookie
+    res.cookie("jwt", token, { httpOnly: true });
+    // Return a response
+    res.send("Logged in successfully!");
+  } catch (err) {
+    console.error("Error signing up:", err);
+    res.status(500).json({ message: "An error occurred" });
+  }
+};
+
 // Generate JWT token
 function generateToken(user) {
   const payload = {
@@ -57,6 +88,4 @@ function generateToken(user) {
   return token;
 }
 
-
-
-export { signUpController, signInController};
+export { signUpController, signInController, googleAuthController };
