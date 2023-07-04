@@ -1,12 +1,11 @@
-import User from "../models/userModel.js"
-import bcrypt from "bcryptjs"
-import jwt from 'jsonwebtoken'
-import colors from "colors"
+import User from "../models/userModel.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import colors from "colors";
 
 const signUpController = async (req, res) => {
-
   try {
-    const { email,name, password } = req.body;
+    const { email, name, password } = req.body;
     console.log(`${email},${password}`.yellow.inverse);
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -28,8 +27,10 @@ const signUpController = async (req, res) => {
     await newUser.save();
     // Generate JWT token
     const token = generateToken(newUser);
-    // Respond with the token
-    res.status(200).json({ token });
+    // Set the token as an HTTP-only cookie
+    res.cookie("jwt", token, { httpOnly: true });
+    // Return a response
+    res.send("Logged in successfully!");
   } catch (err) {
     console.error("Error signing up:", err);
     res.status(500).json({ message: "An error occurred" });
@@ -37,21 +38,23 @@ const signUpController = async (req, res) => {
 };
 const signInController = async (req, res) => {
   console.log(`${req.body.email}`.blue.inverse);
-  const token=generateToken({email:req.body.email});
-  res.status(200).json({token})
-}
+  const token = generateToken({ email: req.body.email });
+  // Set the token as an HTTP-only cookie
+  res.cookie("jwt", token, { httpOnly: true });
+  // Return a response
+  res.send("Logged in successfully!");
+};
 
 // Generate JWT token
 function generateToken(user) {
   const payload = {
-    email: user.email
+    email: user.email,
   };
   // console.log("here in token".red.inverse);
   const secretKey = process.env.SECRET_KEY; // Replace with your secret key
-  const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+  const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
   // console.log("still in token".green.inverse);
   return token;
 }
 
-
-export { signUpController, signInController };
+export { signUpController, signInController,generateToken };

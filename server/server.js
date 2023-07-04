@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import userRouter from "./routes/userRoutes.js"
 import dotenv from "dotenv"
 dotenv.config();
+import passport from "passport";
 
 const app = express();
 app.use(json());
 app.use(urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 app.get("/",(req,res)=>res.send("Hello World"))
 app.use("/users",userRouter)
