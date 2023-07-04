@@ -4,9 +4,10 @@ import jwt from 'jsonwebtoken'
 import colors from "colors"
 
 const signUpController = async (req, res) => {
+
   try {
     const { email,name, password } = req.body;
-    console.log(`${email,password}`.yellow.inverse);
+    console.log(`${email},${password}`.yellow.inverse);
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -34,18 +35,23 @@ const signUpController = async (req, res) => {
     res.status(500).json({ message: "An error occurred" });
   }
 };
-
+const signInController = async (req, res) => {
+  console.log(`${req.body.email}`.blue.inverse);
+  const token=generateToken({email:req.body.email});
+  res.status(200).json({token})
+}
 
 // Generate JWT token
 function generateToken(user) {
   const payload = {
-    userId: user._id,
     email: user.email
   };
+  // console.log("here in token".red.inverse);
   const secretKey = process.env.SECRET_KEY; // Replace with your secret key
   const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+  // console.log("still in token".green.inverse);
   return token;
 }
 
 
-export { signUpController };
+export { signUpController, signInController };
