@@ -78,56 +78,5 @@ passport.use(
   })
 );
 
-// passport.use(new LocalStrategy(
-//   {
-//     usernameField: 'email'
-//   },
-//   (email, password, done) => {
-//     User.findOne({ email })
-//       .then(user => {
-//         if (!user) {
-//           return done(null, false, { message: 'Incorrect email or password' });
-//         }
-
-//         bcrypt.compare(password, user.password)
-//           .then(isPasswordValid => {
-//             if (!isPasswordValid) {
-//               return done(null, false, { message: 'Incorrect email or password' });
-//             }
-
-//             return done(null, user);
-//           })
-//           .catch(err => done(err));
-//       })
-//       .catch(err => done(err));
-//   }
-// ));
-
-// passport.use(new LocalStrategy(
-//   {
-//     usernameField: 'email',
-//     passwordField: 'password'
-//   },
-//   async (email, password, done) => {
-//     try {
-//       // Find the user by email
-//       const user = await User.findOne({ email });
-//       if (!user) {
-//         return done(null, false, { message: 'Incorrect email or password' });
-//       }
-
-//       // Compare the password
-//       const isPasswordValid = await bcrypt.compare(password, user.password);
-//       if (!isPasswordValid) {
-//         return done(null, false, { message: 'Incorrect email or password' });
-//       }
-
-//       // Authentication succeeded
-//       return done(null, user);//user sent to controller
-//     } catch (err) {
-//       return done(err);
-//     }
-//   }
-// ));
 
 export default "service";
