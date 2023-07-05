@@ -15,7 +15,7 @@ store.dispatch(login()) //to initialize the store with user
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/tummoc-assign">
         <Navbar />
         <Routes>
           <Route path="/" element={<App />} />
