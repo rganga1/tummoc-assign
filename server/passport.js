@@ -26,6 +26,7 @@ passport.use(
     User.findOne({ email: payload.email })
       .then(function (user) {
         if (user) {
+          req.body.user={...user};
           done(null, user);
         } else {
           done(null, false);

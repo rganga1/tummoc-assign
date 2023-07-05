@@ -8,6 +8,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
+import { login } from "./reducers/authSlice.jsx";
+
+store.dispatch(login()) //to initialize the store with user
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
